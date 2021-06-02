@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@weather/web/ui": ["libs/web/ui/src/index.ts"],
+      "@weather/api/util-models": ["libs/api/util-models/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
