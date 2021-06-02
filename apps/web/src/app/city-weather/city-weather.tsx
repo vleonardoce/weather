@@ -45,7 +45,7 @@ export function CityWeather(props: CityWeatherProps) {
   const { id } = useParams();
   const classes = useStyles();
   const [weathers, setWeathers] = useState<{
-    data: { city: City; weathers: Weather[] };
+    data: { city: City; weathers: Weather[] } | null;
     loadingState: 'init' | 'success' | 'loading' | 'error';
   }>({
     data: null,
@@ -79,26 +79,26 @@ export function CityWeather(props: CityWeatherProps) {
         <div>
           <Grid className={classes.header}>
             <Paper className={classes.paper}>
-              <Title text={weathers.data?.city?.name} />
+              <Title text={weathers.data?.city.name || ''} />
               <Typography>
                 <strong>Country:</strong> {weathers.data?.city?.country}
               </Typography>
               <Typography>
-                <strong>State:</strong> {weathers.data.city.state || 'Unknown'}
+                <strong>State:</strong> {weathers.data?.city.state || 'Unknown'}
               </Typography>
               <Typography>
                 <strong>Lat:</strong>
-                {weathers.data.city.coord.lat}
+                {weathers.data?.city.coord.lat}
               </Typography>
               <Typography>
                 <strong>Lon:</strong>
-                {weathers.data.city.coord.lon}
+                {weathers.data?.city.coord.lon}
               </Typography>
             </Paper>
           </Grid>
 
           <Grid container spacing={2}>
-            {weathers.data.weathers.map((weather) => (
+            {weathers.data?.weathers.map((weather) => (
               <Grid item xs={2} spacing={2}>
                 <WeatherCard data={weather} />
               </Grid>
