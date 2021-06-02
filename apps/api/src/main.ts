@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const axios = require('axios');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const moment = require('moment');
 
 import { Weather, City } from '@weather/api/util-models';
@@ -12,15 +11,16 @@ const app = express();
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets/city.list.partial_PE_US.json'), 'utf8'));
 // const data = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets/city.list.json'), 'utf8'));
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to api!' });
-});
-
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
+
 server.on('error', console.error);
+
+app.get('/api', (req, res) => {
+  res.send({ message: 'Welcome to api!' });
+});
 
 app.get('/api/countries', (req, res) => {
   const countries = data
@@ -76,8 +76,8 @@ app.get('/api/cities/:id', (req, res) => {
       daysOneWeather.push(last);
 
       const data = {
-        city: response.data.city,
-        weathers: daysOneWeather
+        city: response.data.city as City,
+        weathers: daysOneWeather as Weather[]
       }
 
       return res.status(200).send(data);
@@ -86,3 +86,5 @@ app.get('/api/cities/:id', (req, res) => {
       return res.status(400).send(error);
     })
 });
+
+module.exports = { app, server };
